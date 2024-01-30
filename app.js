@@ -23,7 +23,7 @@ app.get("/status", (req, res) => {
 
 app.get("/email-list", async (req, res) => {
   try {
-    const dataBuffer = await fs.promises.readFile("rocket-agents/agents.json");
+    const dataBuffer = await fs.promises.readFile("agents.json");
     const dataJSON = JSON.parse(dataBuffer);
     
     const emailList = dataJSON.map((agent) => agent.email).join(",");
