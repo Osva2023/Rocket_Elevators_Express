@@ -1,5 +1,6 @@
 // calculations.js
 
+// FUNCTION FOR CALCULATE AVERAGE
 function calculateAverage(values) {
     if (values.length === 0) return 0;
     const sum = values.reduce((acc, value) => acc + Number(value), 0);
@@ -52,5 +53,7 @@ function getCost(tier, floorsNumber, apartmentNumber, standard_price, premium_pr
 
 module.exports = {
     calculateEle,
-    getCost
+    getCost,
+    calculateRegionAverages,
+    calculateAverage
 };
