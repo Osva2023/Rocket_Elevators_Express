@@ -19,7 +19,38 @@ function calculateAverage(values) {
     };
   }
   
-  module.exports = {
-    calculateRegionAverages
-  };
-  
+  function calculateEle(apartmentNumber, floorsNumber) {
+    const ratioApt = Math.ceil(apartmentNumber) / Math.ceil(floorsNumber);
+    
+    const regBanks = Math.ceil(ratioApt / 6);
+    const extraBanks = Math.ceil(floorsNumber / 20);
+    const elevatorsNeeded = Math.ceil(regBanks * extraBanks);
+    return elevatorsNeeded;
+}
+
+function getCost(tier, floorsNumber, apartmentNumber, standard_price, premium_price, exelium_price, standard_fee, premium_fee, exelium_fee) {
+    if (tier === "standard") {
+        const elevatorsNeeded = calculateEle(apartmentNumber, floorsNumber);
+
+        const installationFeepercent = elevatorsNeeded * standard_price * standard_fee;
+        const finalcost = elevatorsNeeded * standard_price + installationFeepercent;
+        return finalcost;
+    } else if (tier === "premium") {
+        const elevatorsNeeded = calculateEle(apartmentNumber, floorsNumber);
+
+        const installationFeepercent = elevatorsNeeded * premium_price * premium_fee;
+        const finalcost = elevatorsNeeded * premium_price + installationFeepercent;
+        return finalcost;
+    } else if (tier === "exelium") {
+        const elevatorsNeeded = calculateEle(apartmentNumber, floorsNumber);
+
+        const installationFeepercent = elevatorsNeeded * exelium_price * exelium_fee;
+        const finalcost = elevatorsNeeded * exelium_price + installationFeepercent;
+        return finalcost;
+    }
+}
+
+module.exports = {
+    calculateEle,
+    getCost
+};
