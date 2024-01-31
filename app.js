@@ -7,8 +7,7 @@ dotenv.config();
 
 
 const {standard_price, premium_price, exelium_price, standard_fee, premium_fee, exelium_fee} = require("./appData");
-// const standard_price = 8000;
-// const standard_fee = 0.1;
+
 
 const app = express();
 app.use(express.json());
@@ -42,34 +41,7 @@ app.get("/email-list", async (req, res) => {
   }
 });
 
-// app.get("/region-avg/:region", async (req, res) => {
-//   const region = req.params.region;
 
-//   try {
-//     const dataBuffer = await fs.promises.readFile("agents.json");
-//     const dataJSON = JSON.parse(dataBuffer);
-
-//     const regionAgents = dataJSON.filter((agent) => agent.region.trim().toLowerCase() === region);
-
-//     if (regionAgents.length === 0) {
-//       res.status(404).send("Not agents were found in the Region provided.");
-//       return;
-//     }
-//     const regionAvgRating = regionAgents.reduce((acc, agent) => acc + Number(agent.rating), 0) / regionAgents.length;
-//     const regionAvgFee = regionAgents.reduce((acc, agent) => acc + Number(agent.fee), 0) / regionAgents.length;
-
-//     const result = {
-//       region: region,
-//       average_rating: regionAvgRating.toFixed(2),
-//       average_fee: regionAvgFee.toFixed(2)
-//     };
-//     res.status(200).send(result);
-
-//   } catch (error) {
-//     console.error("Error reading file", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
 
 app.get("/region-avg/:region", async (req, res) => {
   const region = req.params.region;
@@ -144,6 +116,16 @@ app.get("/calc-residential/:apartment/:floors/:tier", async (req, res) => {
     console.log("processing completed, sendind response", result);   // Debugging purposes
     res.status(200).send({ cost: result });
 
+});
+
+app.post("/contact-us", (req, res) => {
+  const { first_name, last_name, message } = req.body;
+  if (first_name && last_name && message) {
+    res.status(200).send(req.body);
+    } else {
+    res.status(400).send("Invalid input: first_name, last_name and message are required");
+    return;
+  }
 });
 
 app.get("/error", (req, res) => {
