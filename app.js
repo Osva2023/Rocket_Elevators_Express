@@ -1,13 +1,13 @@
 const dotenv = require("dotenv");
 const express = require("express");
 const fs = require("fs");
-const calculations = require("./calculations"); // Import the module, just testing now
+const calculations = require("./calculations"); 
 
 dotenv.config();
 
 
 const {standard_price, premium_price, exelium_price, standard_fee, premium_fee, exelium_fee} = require("./appData");
-
+const appData = require("./appData");
 
 const app = express();
 app.use(express.json());
@@ -30,18 +30,14 @@ app.get("/status", (req, res) => {
 
 app.get("/email-list", async (req, res) => {
   try {
-    const dataBuffer = await fs.promises.readFile("agents.json");
-    const dataJSON = JSON.parse(dataBuffer);
-
-    const emailList = dataJSON.map((agent) => agent.email).join(",");
+    
+    const emailList = appData.dataArray.map((agent) => agent.email).join(",");
     res.status(200).send(emailList);
   } catch (error) {
     console.error("Error reading file", error);
     res.status(500).send("Internal Server Error");
   }
 });
-
-
 
 app.get("/region-avg/:region", async (req, res) => {
   const region = req.params.region;
